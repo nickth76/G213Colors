@@ -1,5 +1,5 @@
 # G213Colors
-A application to change the key colors on a Logitech G213 Prodigy Gaming Keyboard and G203 Mouse.
+An application to change the key colors on a Logitech G213 Prodigy Gaming Keyboard and G203 Mouse.
 
 Slightly modified to run on Ubuntu 20.04.
  
