@@ -11,10 +11,10 @@ It is using [JeroenED](https://github.com/JeroenED)'s [G213Colors-gui](https://g
 * G203 mouse
 
 ## Screenshots
-![g213-colors-static](https://user-images.githubusercontent.com/15942848/30737264-4bab741c-9f86-11e7-893b-3ec0398c85b9.png)
-![g213-colors-cycle](https://user-images.githubusercontent.com/15942848/30737260-49058a04-9f86-11e7-9682-94fd42b98881.png)
-![g213-colors-breathe](https://user-images.githubusercontent.com/15942848/30737256-45c8ca18-9f86-11e7-9fbc-ff9caa317e14.png)
-![g213-colors-segments](https://user-images.githubusercontent.com/15942848/30737263-4b84ca42-9f86-11e7-83e7-dd84e464b601.png)
+![g213-colors-static](https://raw.githubusercontent.com/nickth76/G213Colors/master/Preview/Screenshot%20from%202021-02-24%2020-54-34.png)
+![g213-colors-breathe](https://raw.githubusercontent.com/nickth76/G213Colors/master/Preview/Screenshot%20from%202021-02-24%2020-55-01.png)
+![g213-colors-segments](https://raw.githubusercontent.com/nickth76/G213Colors/master/Preview/Screenshot%20from%202021-02-24%2020-44-48.png)
+![g213-colors-app](https://raw.githubusercontent.com/nickth76/G213Colors/master/Preview/Screenshot%20from%202021-02-24%2020-45-33.png)
 
 ## What it does
 G213Colors lets you set the color(s) and certain effects of the illuminated keys on a G213 keyboard and G203 mouse under Ubuntu Linux.
@@ -23,7 +23,7 @@ The "Wave" color effect that is available with the Logitech software could not b
 
 ## Installation
 First clone the repository
-`git clone .........` 
+`git clone https://github.com/nickth76/G213Colors.git` 
 
 then run `INSTALL.sh`
 
