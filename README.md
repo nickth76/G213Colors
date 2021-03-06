@@ -13,7 +13,8 @@ It is using [JeroenED](https://github.com/JeroenED)'s [G213Colors-gui](https://g
 ## Screenshots
 ![g213-colors-static](https://raw.githubusercontent.com/nickth76/G213Colors/master/Preview/Screenshot%20from%202021-02-24%2020-54-34.png)
 ![g213-colors-breathe](https://raw.githubusercontent.com/nickth76/G213Colors/master/Preview/Screenshot%20from%202021-02-24%2020-55-01.png)
-![g213-colors-segments](https://raw.githubusercontent.com/nickth76/G213Colors/master/Preview/Screenshot%20from%202021-02-24%2020-44-48.png)
+![g213-colors-segments](https://raw.githubusercontent.com/nickth76/G213Colors/master/Preview/Screenshot%20from%202021-02-24%2020-44-48.png)<br>
+
 ![g213-colors-app](https://raw.githubusercontent.com/nickth76/G213Colors/master/Preview/Screenshot%20from%202021-02-24%2020-45-33.png)
 
 ## What it does
