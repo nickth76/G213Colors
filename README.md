@@ -1,43 +1,85 @@
-# G213Colors
-An application to change the key colors on a Logitech G213 Prodigy Gaming Keyboard and G203 Mouse.
+# G213Colors & G203Colors Control
 
-Slightly modified to run on Ubuntu 20.04.
- 
-It is using [JeroenED](https://github.com/JeroenED)'s [G213Colors-gui](https://github.com/JeroenED/G213Colors) which is based on [SebiTimeWaster](https://github.com/SebiTimeWaster)'s [G213Colors](https://github.com/SebiTimeWaster/G213Colors)
+An application to manage the illuminated key colors and effects on Logitech G213 Prodigy Gaming Keyboards and G203 Prodigy Gaming Mice on Linux.
 
-## Supported devices
+This project is based on the work of [JeroenED's G213Colors-gui](https://github.com/JeroenED/G213Colors-gui) and [SebiTimeWaster's G213Colors](https://github.com/SebiTimeWaster/G213Colors), updated and enhanced for modern Linux distributions.
 
-* G213 keyboard
-* G203 mouse
+## Features
+
+* Control static colors, breathing effects, and cycle effects.
+* G213: Control individual keyboard segments.
+* GUI for easy color selection and effect management.
+* Settings are saved per user.
+* System service to apply a default color scheme at startup.
+
+## Supported Devices
+
+* Logitech G213 Prodigy Gaming Keyboard
+* Logitech G203 Prodigy Gaming Mouse
 
 ## Screenshots
-![g213-colors-static](https://raw.githubusercontent.com/nickth76/G213Colors/master/Preview/Screenshot%20from%202021-02-24%2020-54-34.png)
-![g213-colors-breathe](https://raw.githubusercontent.com/nickth76/G213Colors/master/Preview/Screenshot%20from%202021-02-24%2020-55-01.png)
-![g213-colors-segments](https://raw.githubusercontent.com/nickth76/G213Colors/master/Preview/Screenshot%20from%202021-02-24%2020-44-48.png)<br>
 
-![g213-colors-app](https://raw.githubusercontent.com/nickth76/G213Colors/master/Preview/Screenshot%20from%202021-02-24%2020-45-33.png)
+*(You can keep your existing screenshots here. If the GUI appearance changed significantly, you might want to update them.)*
 
-## What it does
-G213Colors lets you set the color(s) and certain effects of the illuminated keys on a G213 keyboard and G203 mouse under Ubuntu Linux.
-
-The "Wave" color effect that is available with the Logitech software could not be replicated since it is completely generated in the software by updating the colors every x ms (In contrast to the other effects which run on the keyboard itself). You could generate this effect with a script, but since G213Colors has to detach the kernel driver from one of the G213's interfaces to send data out the multimedia keys would most likely stop working. Unfortunately this is a side effect of the linux driver structure.
+![g213-colors-static](https://raw.githubusercontent.com/githubuser/G213Colors/master/Preview/Screenshot%20from%202021-02-24%2020-54-34.png)
+![g213-colors-breathe](https://raw.githubusercontent.com/githubuser/G213Colors/master/Preview/Screenshot%20from%202021-02-24%2020-55-01.png)
+![g213-colors-segments](https://raw.githubusercontent.com/githubuser/G213Colors/master/Preview/Screenshot%20from%202021-02-24%2020-44-48.png)<br>
+![g213-colors-app](https://raw.githubusercontent.com/githubuser/G213Colors/master/Preview/Screenshot%20from%202021-02-24%2020-45-33.png)
 
 ## Installation
-First clone the repository
-`git clone https://github.com/nickth76/G213Colors.git` 
 
-then run `INSTALL.sh`
+The installation script automates the setup process, including installing dependencies, setting USB device permissions, and installing the application files.
 
-It should do the rest automatically. In the end you can find the app , in the apps menu, named as G213 Colors.
+1.  **Clone the repository:**
+    ```bash
+    git clone [https://github.com/githubuser/G213Colors.git](https://github.com/githubuser/G213Colors.git)
+    cd G213Colors
+    ```
 
-### Restoring previous state
-After rebooting your pc you can restore the pre-reboot state by running the app with the parameter `-t`
+2.  **Run the installation script with sudo:**
+    ```bash
+    sudo ./INSTALL.sh
+    ```
+    The script will guide you through the necessary steps. After installation, you should find "G213 Colors" in your application menu.
 
-```Bash
-sudo g213colors-gui -t
-```
-You can also do this automatically at reboot by enabling the systemd service.
+    **Note:** If your Logitech devices were connected during installation, you might need to unplug and replug them, or reboot your computer, for the USB device permissions (udev rules) to take full effect.
 
-```Bash
+## How it Works
+
+### GUI Application (User Settings)
+
+* Launch "G213 Colors" from your application menu. **It does not require `sudo` to run.**
+* Select your device (G213 or G203) and configure your desired colors and effects.
+* When you apply settings, they are saved to your user's personal configuration directory (`~/.config/G213Colors/<DEVICE_NAME>.conf`, e.g., `G213.conf`). These settings are specific to your user account.
+
+### System Startup Settings (System-wide Default)
+
+* The `INSTALL.sh` script sets up a systemd service (`g213colors.service`) that runs at startup.
+* This service automatically applies a default color scheme to the **Logitech G213 keyboard**, setting it to a standard white color. This configuration is stored in `/etc/G213Colors.conf`.
+* Currently, the G203 mouse does not have a color set by the system service at startup; its color will be its hardware default or the last color set by the GUI for your user (if the device retains it).
+
+**Customizing Startup Colors:**
+If you wish to change the default system-wide startup color (currently G213 white):
+1.  You will need to edit the `/etc/G213Colors.conf` file with root privileges (e.g., `sudo nano /etc/G213Colors.conf`).
+2.  The file format requires the first line to be `PRODUCT=<DEVICE_NAME>` (e.g., `PRODUCT=G213`) followed by the raw hex command string for the device on the next line.
+    *(A future enhancement may allow setting the system default more easily via the GUI.)*
+
+You can enable the service to start on boot (if not already enabled by the installer, though it should be) with:
+```bash
 sudo systemctl enable g213colors.service
-```
+
+You can also manually trigger the application of the system default settings by running:
+
+```sudo /usr/bin/g213colors-gui -t```
+
+## Limitations
+The "Wave" color effect available in official Logitech software on other platforms is not replicated here. This effect is typically software-generated by rapidly updating colors, which would conflict with how this tool interacts with the device (by detaching the kernel driver for direct USB control, which can affect multimedia keys if done continuously). The effects provided (static, breathe, cycle) run directly on the device hardware.
+
+## Uninstallation
+To remove the application and its components:
+
+1. Navigate to the cloned repository directory.
+2. Run the following command:
+```sudo make uninstall```
+
+This will remove the application files, configuration files, service unit, udev rules, and desktop entries.

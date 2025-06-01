@@ -1,7 +1,7 @@
 install :
 	cp G213Colors.py /usr/bin/G213Colors.py
 	cp main.py /usr/bin/g213colors-gui
-	cp default.conf /etc/G213Colors.conf
+#	cp default.conf /etc/G213Colors.conf
 	cp g213colors.service /etc/systemd/system/g213colors.service
 	chmod +x /usr/bin/G213Colors.py
 	chmod +x /usr/bin/g213colors-gui
