@@ -17,15 +17,6 @@ This project is based on the work of [JeroenED's G213Colors-gui](https://github.
 * Logitech G213 Prodigy Gaming Keyboard
 * Logitech G203 Prodigy Gaming Mouse
 
-## Screenshots
-
-*(You can keep your existing screenshots here. If the GUI appearance changed significantly, you might want to update them.)*
-
-![g213-colors-static](https://raw.githubusercontent.com/githubuser/G213Colors/master/Preview/Screenshot%20from%202021-02-24%2020-54-34.png)
-![g213-colors-breathe](https://raw.githubusercontent.com/githubuser/G213Colors/master/Preview/Screenshot%20from%202021-02-24%2020-55-01.png)
-![g213-colors-segments](https://raw.githubusercontent.com/githubuser/G213Colors/master/Preview/Screenshot%20from%202021-02-24%2020-44-48.png)<br>
-![g213-colors-app](https://raw.githubusercontent.com/githubuser/G213Colors/master/Preview/Screenshot%20from%202021-02-24%2020-45-33.png)
-
 ## Installation
 
 The installation script automates the setup process, including installing dependencies, setting USB device permissions, and installing the application files.
@@ -65,8 +56,8 @@ If you wish to change the default system-wide startup color (currently G213 whit
     *(A future enhancement may allow setting the system default more easily via the GUI.)*
 
 You can enable the service to start on boot (if not already enabled by the installer, though it should be) with:
-```bash
-sudo systemctl enable g213colors.service
+
+```sudo systemctl enable g213colors.service```
 
 You can also manually trigger the application of the system default settings by running:
 
