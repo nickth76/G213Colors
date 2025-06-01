@@ -39,7 +39,7 @@ SUBSYSTEM=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="c336", MODE="0666"
 SUBSYSTEM=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="c084", MODE="0666"
 EOF
 )
-echo "$UDEV_RULE_CONTENT" | sudo tee /etc/udev/rules.d/42-logitech-usb-permissions.rules > /dev/null
+echo "$UDEV_RULE_CONTENT" | sudo tee /etc/udev/rules.d/99-logitech-usb-permissions.rules > /dev/null
 echo "Reloading udev rules..."
 sudo udevadm control --reload-rules
 sudo udevadm trigger
