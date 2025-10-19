@@ -24,7 +24,7 @@ The installation script automates the setup process, including installing depend
 
 1.  **Clone the repository:**
     ```
-    git clone [https://github.com/githubuser/G213Colors.git](https://github.com/githubuser/G213Colors.git)
+    git clone https://github.com/nickth76/G213Colors.git
     cd G213Colors
     ```
 
