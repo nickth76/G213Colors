@@ -18,7 +18,6 @@ echo ""
 echo "Installing system libraries and Python core components via apt..."
 sudo apt-get install -y \
     libusb-1.0-0 \
-    python3-pip \
     python3-gi \
     python3-gi-cairo \
     gir1.2-gtk-3.0 \
@@ -26,20 +25,22 @@ sudo apt-get install -y \
     python3-usb
 
 echo ""
-echo "Installing Python library 'randomcolor' via pip3..."
-sudo python3 -m pip install randomcolor --break-system-packages
-
-echo ""
 echo "Creating udev rule for Logitech device permissions..."
+# TAG+="uaccess" gives access only to the user logged in at this computer
+# (via systemd-logind), instead of MODE="0666", which let every local user
+# and process talk to the keyboard over raw USB. The file name must sort
+# before 73-seat-late.rules, where systemd applies the uaccess tag.
 UDEV_RULE_CONTENT=$(cat <<EOF
 # Logitech G213 Keyboard
-SUBSYSTEM=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="c336", MODE="0666"
+SUBSYSTEM=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="c336", TAG+="uaccess"
 
 # Logitech G203 Mouse
-SUBSYSTEM=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="c084", MODE="0666"
+SUBSYSTEM=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="c084", TAG+="uaccess"
 EOF
 )
-echo "$UDEV_RULE_CONTENT" | sudo tee /etc/udev/rules.d/99-logitech-usb-permissions.rules > /dev/null
+# Rule file of older versions (world-writable MODE="0666")
+sudo rm -f /etc/udev/rules.d/99-logitech-usb-permissions.rules
+echo "$UDEV_RULE_CONTENT" | sudo tee /etc/udev/rules.d/70-g213colors.rules > /dev/null
 echo "Reloading udev rules..."
 sudo udevadm control --reload-rules
 sudo udevadm trigger
