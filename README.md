@@ -34,6 +34,8 @@ The installation script automates the setup process, including installing depend
 
     **Note:** If your Logitech devices were connected during installation, you might need to unplug and replug them, or reboot your computer, for the USB device permissions (udev rules) to take full effect.
 
+    The udev rule (`/etc/udev/rules.d/70-g213colors.rules`) gives USB access to the devices only to the user logged in at the computer (`TAG+="uaccess"`, via systemd-logind), not to every user on the system. Re-running `INSTALL.sh` also removes the world-writable rule of older versions (`99-logitech-usb-permissions.rules`).
+
 ## How it Works
 
 There are two main ways color settings are applied:
@@ -66,8 +68,10 @@ If you wish to change the *system-wide default startup color* that the service a
 2.  The file format requires the first line to be `PRODUCT=<DEVICE_NAME>` (e.g., `PRODUCT=G213`) followed by the raw hex command string for the device on the next line.
     *(A future enhancement may allow setting this system default more easily via the GUI.)*
 
-You can enable the system service to start on boot (this should be done automatically by `INSTALL.sh`) with:
+`INSTALL.sh` (through `make install`) enables the system service to start on boot. To enable it manually:
 ```sudo systemctl enable g213colors.service```
+
+If you edit `/etc/G213Colors.conf` by hand and a command line is not valid hex, applying stops at that line with an error in the log, and the keyboard's kernel driver is still reattached, so the multimedia keys keep working.
 
 You can also manually trigger the application of the system default settings by running:
 
@@ -88,6 +92,6 @@ To remove the application and its system-wide components:
 2. Run the following command:
 ```sudo make uninstall```
 
-This will remove the application files, the system-wide configuration file (/etc/G213Colors.conf), the systemd service unit, and the udev rule.
+This will disable and remove the systemd service unit, and remove the application files, the system-wide configuration file (/etc/G213Colors.conf) and the udev rule.
 
 **Note on User Files:** The uninstallation command does not remove your personal configuration files (in ~/.config/G213Colors/) or any autostart entries you created via the GUI (in ~/.config/autostart/). You can remove these manually if desired, or simply uncheck the "Apply user settings on login" boxes in the GUI before uninstalling.
