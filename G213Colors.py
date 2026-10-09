@@ -128,10 +128,15 @@ class LogitechDevice:
             return False
         logger.debug(f"Sending data to {self.product_name}: {data_hex_string}")
         try:
+            payload = binascii.unhexlify(data_hex_string)
+        except (binascii.Error, ValueError) as e: # e.g. a typo in a hand-edited .conf file
+            logger.error(f"Invalid hex command for {self.product_name}: {data_hex_string!r} ({e})")
+            return False
+        try:
             self.device.ctrl_transfer(
                 self.USB_BM_REQUEST_TYPE, self.USB_BM_REQUEST,
                 self.spec["wValue"], self.USB_W_INDEX,
-                binascii.unhexlify(data_hex_string)
+                payload
             )
             return True
         except usb.core.USBError as e:
@@ -218,17 +223,20 @@ class LogitechDevice:
 
             logger.info(f"Applying {len(commands_to_apply)} command(s) to {product_name_from_file}...")
             success = True
-            for cmd_data in commands_to_apply:
-                if device_instance._send_data(cmd_data):
-                    if device_instance.spec["needs_receive_after_color"]:
-                         device_instance._receive_data()
-                    time.sleep(0.01) # Original sleep
-                else:
-                    logger.error(f"Failed to send command: {cmd_data} to {product_name_from_file}")
-                    success = False
-                    break # Stop on first error
-            
-            device_instance.disconnect()
+            try:
+                for cmd_data in commands_to_apply:
+                    if device_instance._send_data(cmd_data):
+                        if device_instance.spec["needs_receive_after_color"]:
+                             device_instance._receive_data()
+                        time.sleep(0.01) # Original sleep
+                    else:
+                        logger.error(f"Failed to send command: {cmd_data} to {product_name_from_file}")
+                        success = False
+                        break # Stop on first error
+            finally:
+                # Always reattach the kernel driver, otherwise the G213 multimedia keys stay dead until replug
+                device_instance.disconnect()
+
             if success:
                 logger.info(f"Finished applying settings from {conf_file_path} for {product_name_from_file}.")
             else:
